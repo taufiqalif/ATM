@@ -52,5 +52,99 @@
                 return us
         return False
 
-for disini untuk melakukan perulangan dan mengecek apakah parameter p(pin)
+**for** disini untuk melakukan perulangan dan mengecek apakah parameter p(pin)
 yang kita masukan saat pertama kali menggunakan ATM sama/ada di dalam variable user(array)
+
+### Cek User
+
+    def cek_user(id):
+        for i in range(len(user)):
+            if user[i]['id'] == str(id):
+                return int(i)
+        return -1
+
+**return -1** karena setalah mengcek user kita akan me-return/mengembalikan nilai dari index variable user karena tipenya array kita perlu index untuk mengaksesnya
+
+
+### Perulangan While
+
+    while pakai_atm == "y":
+        while status_login == False:
+            print("=====================================")
+            print(">>>>SELAMAT DATANG DI ATM BERSAMA<<<<")
+            print("=====================================")
+            print(">>>>>>Silahkan masukan pin anda<<<<<<")
+            print("=====================================")
+            pin = input("Masukan PIN : ")
+
+            cl = cek_login(pin)
+            if cl != False:
+                print("selamat data "+cl['username'])
+                user_id = cl['id']
+                status_login = True
+                loop = "y"
+            else:
+                print("Ops PIN anda salah")
+
+        while loop == "y" and status_login == True:
+            u = user[cek_user(user_id)]
+            print("=====================================")
+            print(">>>>SELAMAT DATANG DI ATM BERSAMA<<<<")
+            print("=====================================")
+            print("1.Cek Saldo")
+            print("2.Transfer Uang")
+            print("3.Ambil Uang")
+            print("4.Logout")
+            print("5.Keluar ATM")
+            a = int(input("Silahkan pilih menu : "))
+            if a == 1:
+                print("--------------------------------------")
+                print("Sisa Saldo anda adalah Rp.", u['saldo'])
+                print("--------------------------------------")
+                loop = "n"
+            elif a == 2:
+                print("----------------------------------------------------------")
+                print("Untuk Mentransfer Uang Silahkan Masukan No Rekening Tujuan")
+                print("----------------------------------------------------------")
+                no_rek = input("Masukan No Rekening Tujuan : ")
+                cnk = cek_rekening(no_rek)
+
+                if cnk >= 0:
+                    print(
+                        "----------------------------------------------------------------------------")
+                    print(
+                        "Nomor rekening ditemukan,silahkan masukan nominal yang yang akan di transfer")
+                    print(
+                        "----------------------------------------------------------------------------")
+                    nominal = input("Nominal Yang Akan Di Transfer : ")
+                    tranfer_uang(nominal, no_rek)
+                    print(
+                        "--------------------------------------------------------------------------")
+                    loop = "n"
+                else:
+                    print("----------------------------------------------------------")
+                    print("Nomor Rekening Tujuan Tidak ditemukan atau tidak terdaftar")
+                    print("----------------------------------------------------------")
+                    loop = "n"
+
+            elif a == 3:
+                print("---------------------------------------")
+                nominal = input("Nominal Yang Akan Di Tarik : ")
+                print("---------------------------------------")
+                ambil_uang(nominal)
+                print("---------------------------------------")
+                loop = "n"
+            elif a == 4:
+                status_login = False
+
+            elif a == 5:
+                status_login = False
+                loop = "n"
+                pakai_atm = "n"
+            else:
+                print("pilihan tidak tersedia")
+            if status_login == True:
+
+                input("kembali Ke menu (Enter) ")
+                print("")
+                loop = "y"
